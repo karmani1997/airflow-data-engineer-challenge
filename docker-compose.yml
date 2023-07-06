@@ -1,0 +1,68 @@
+version: '3.5'
+
+services:
+  postgres:
+    image: postgres:12-alpine
+    env_file:
+      - postgres.env
+    volumes:
+      - postgres:/data/postgres
+      - ./scripts/postgres/:/docker-entrypoint-initdb.d/
+    ports:
+      - "6543:5432"
+
+  server:
+    image: puckel/docker-airflow:1.10.4
+    env_file:
+      - airflow.env
+      - airflow_db.env
+    ports:
+      - "8080:8080"
+      
+    depends_on:
+      - postgres
+    volumes:
+      - ./dags:/usr/local/airflow/dags
+      - ./DATA:/usr/local/airflow/data_files_airflow
+      - ./processed_data_files:/usr/local/airflow/processed_files_airflow
+      - ./logs:/usr/local/airflow/logs_files_airflow
+      - ./tests:/usr/local/airflow/tests
+
+volumes:
+  postgres:
+
+# version: '3.5'
+
+# services:
+#   postgres:
+#     image: postgres:12-alpine
+#     env_file:
+#       - postgres.env
+#     volumes:
+#       - postgres:/data/postgres
+#       - ./scripts/postgres/:/docker-entrypoint-initdb.d/
+#     ports:
+#       - "6543:5432"
+#     hostname: airflow_postgres
+
+#   server:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     env_file:
+#       - airflow.env
+#       - airflow_db.env
+#     ports:
+#       - "8080:8080"
+#     depends_on:
+#       - postgres
+#     volumes:
+#       - ./dags:/usr/local/airflow/dags
+#       - ./data:/usr/local/airflow/data_files_airflow
+#       - ./processed_data_files:/usr/local/airflow/processed_files_airflow
+#       - ./logs:/usr/local/airflow/logs_files_airflow
+#       - ./tests:/usr/local/airflow/tests
+
+# volumes:
+#   postgres:
+
