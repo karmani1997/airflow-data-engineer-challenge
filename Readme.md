@@ -32,7 +32,7 @@ The invoice records include fields invoice_id, venue_id, datetime_created and am
 * Postgres
 
 ---
-### Environment Setup
+### Environment Setup / How to run
 - Download the project and unzip it
 - Open terminal and navigate to the project folder where docker-compose.yml file exists.
 - Run the below command:
@@ -46,6 +46,19 @@ Now the airflow and postgres containers are up and running
 Open the airflow UI at 
 http://localhost:8080/admin/
 
+---
+
+## Run the test cases
+
+* open the terminal run the command
+```
+   sudo docker exec -it AIRFLOW_DATAPIPELINE_MAIN_SERVER_Container_ID bash
+```
+
+* To Run the unit test cases
+```
+	python -m unittest discover tests/
+```
 ---
 
 ### Data Model
@@ -121,31 +134,20 @@ sudo docker exec -it PostgreSQL_Container_ID bash
 * connect to the mysql
 ```
 psql -h localhost -p 5432 -U airflow -d airflow
-
 ```
 * get the output to run the sql queries
 ```
 select * from invoice_table;
 select * from invoice_aggregated_data_table;
-
 ```
----
-## Run the test cases
-
-* open the terminal run the command
-```
-sudo docker exec -it AIRFLOW_DATAPIPELINE_MAIN_SERVER_Container_ID bash
-
-```
-
-* To Run the unit test cases
-```
-	python -m unittest discover tests/
-
-```
-
 
 ---
+
 ### Further Enhancements
+* Invoice/all necessary tables must have an index on all necessary columns i.e. dates filters used by code.
+* Since `invoice` table is huuuuuuge, having range paritioning can result in huge positive impact.
 * Use celery executor instead of local executor. I can't run the latest version of apache airflow on my system due hardware limitation.
 * we can have separate table which can be used to generate monthly and yearly reports instead of daily aggregation.
+* Apache spark would have been really good if my laptop could run latest airflow version. I tried but it hangs the moment container starts. 
+  `dags/tasks` contains both `Spark` and `Pandas` implementations. Currently, pandas is working along with unit tests whereas Spark is just for reference.
+
