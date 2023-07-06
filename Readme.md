@@ -138,24 +138,12 @@ sudo docker exec -it AIRFLOW_DATAPIPELINE_MAIN_SERVER_Container_ID bash
 
 ```
 
-* To Test the process_files functions to run the following command in the terminal
+* To Run the unit test cases
 ```
-	python3 -m unittest tests.test_process_files
+	python -m unittest discover tests/
+
 ```
 
-* To Test the test_load_into_staging functions run the following commmand in the terminal
-```
-	python3 -m unittest tests.test_load_into_staging
-```
-
-* To Test the test_load_into_aggregated_table functions to run the following command in the terminal
-```
-	python3 -m unittest tests.test_load_into_aggregated_table
-```
-* To Test the test_db_utils functions to run the following command in the terminal
-```
-	python3 -m unittest tests.test_db_utils
-```
 
 ---
 ### Further Enhancements
