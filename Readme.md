@@ -76,7 +76,7 @@ postgres database.
 
 **invoice_table**
 
-![alt text](images/invoice_aggregated_data_table_schema.png)
+![alt text](images/invoice_table_schema.png)
 
 **invoice_aggregated_data_table**
 
